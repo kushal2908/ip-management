@@ -1,0 +1,14 @@
+{"level":"error","message":"DB Connection error! :SequelizeAccessDeniedError: Access denied for user ''@'localhost' (using password: NO)","timestamp":"2023-07-26T11:42:38.356Z"}
+{"level":"info","message":"DB Connected","timestamp":"2023-07-27T04:24:05.525Z"}
+{"level":"info","message":"DB Connected","timestamp":"2023-07-27T04:24:46.910Z"}
+{"level":"info","message":"DB Connected","timestamp":"2023-07-27T04:25:06.967Z"}
+{"level":"info","message":"DB Connected","timestamp":"2023-07-27T04:29:44.583Z"}
+{"level":"info","message":"DB Connected","timestamp":"2023-07-27T04:31:29.577Z"}
+{"level":"info","message":"DB Connected","timestamp":"2023-07-27T04:36:00.923Z"}
+{"level":"info","message":"DB Connected","timestamp":"2023-07-27T04:36:15.705Z"}
+{"level":"info","message":"DB Connected","timestamp":"2023-07-27T04:36:30.623Z"}
+{"level":"info","message":"DB Connected","timestamp":"2023-07-27T04:38:02.110Z"}
+{"level":"info","message":"DB Connected","timestamp":"2023-07-27T04:40:40.771Z"}
+{"level":"info","message":"DB Connected","timestamp":"2023-07-27T04:41:21.383Z"}
+{"level":"info","message":"DB Connected","timestamp":"2023-07-27T04:44:03.127Z"}
+{"level":"info","message":"DB Connected","timestamp":"2023-07-27T04:52:01.140Z"}
