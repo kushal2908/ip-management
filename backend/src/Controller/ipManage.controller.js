@@ -6,7 +6,11 @@ const { logger } = require("../utils/logger");
 //@ACESS       Private
 ///////////////////////////////////////////////////////////////////////////
 
-const getAllIpController = (req, res) => {};
+const getAllIpController = (req, res) => {
+  res.json({
+    msg: "api working",
+  });
+};
 
 ///////////////////////////////////////////////////////////////////////////
 //@DESC        Retrive an ip entries
