@@ -1,8 +1,6 @@
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
-var fs = require("fs");
-var path = require("path");
 require("dotenv").config();
 
 //Initializing app
@@ -11,12 +9,7 @@ const app = express();
 // Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-// app.use(morgan("dev"));
-app.use(
-  morgan("common", {
-    stream: fs.createWriteStream(path.join(__dirname, "access.log"), { flags: "a" }),
-  })
-);
+app.use(morgan("dev"));
 app.use(cors());
 
 // API URL PATHS
