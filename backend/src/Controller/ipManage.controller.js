@@ -3,7 +3,7 @@ const { logger } = require("../utils/logger");
 
 ///////////////////////////////////////////////////////////////////////////
 //@DESC        List of all ip entries
-//@ROUTE       POST api/ip
+//@ROUTE       GET api/ip
 //@ACESS       Private
 ///////////////////////////////////////////////////////////////////////////
 const getAllIpController = async (req, res) => {
@@ -53,7 +53,7 @@ const entryIpController = async (req, res) => {
 
 ///////////////////////////////////////////////////////////////////////////
 //@DESC        Retrive an ip entry
-//@ROUTE       POST api/ip/:id
+//@ROUTE       GET api/ip/:id
 //@ACESS       Private
 ///////////////////////////////////////////////////////////////////////////
 const getSignleIpController = async (req, res) => {
@@ -101,9 +101,29 @@ const updateSigleIpController = async (req, res) => {
   }
 };
 
+///////////////////////////////////////////////////////////////////////////
+//@DESC        DELETE an ip entries
+//@ROUTE       DELETE api/ip/:id
+//@ACESS       Private
+///////////////////////////////////////////////////////////////////////////
+const deleteIpAddressController = async (req, res) => {
+  const { id } = req.params;
+  const deleteIpAddress = await IpLists.destroy({ where: { id: id } });
+  if (deleteIpAddress) {
+    res.status(200).json({
+      msg: "IP address deleted",
+    });
+  } else {
+    res.status(400).json({
+      msg: "Can not deleted IP address ",
+    });
+  }
+};
+
 module.exports = {
   getAllIpController,
   getSignleIpController,
   updateSigleIpController,
   entryIpController,
+  deleteIpAddressController,
 };
