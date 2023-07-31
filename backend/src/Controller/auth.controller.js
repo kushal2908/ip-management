@@ -78,7 +78,7 @@ const createJWT = (data) => {
       data: data,
     },
     process.env.JWT_SECRET_KEY,
-    { expiresIn: "1h" }
+    { expiresIn: "30days" }
   );
 };
 module.exports = { signupController, signinController };
