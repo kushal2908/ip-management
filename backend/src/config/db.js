@@ -7,7 +7,7 @@ const { logger } = require("../utils/logger");
 //   dialect: "mysql",
 // });
 
-const sequelize = new Sequelize("ip_manage", "root", "admin", {
+const sequelize = new Sequelize("ip_management", "root", "root", {
   host: "127.0.0.1",
   dialect: "mysql",
 });

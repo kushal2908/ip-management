@@ -1,16 +1,16 @@
-import { Button, Card, CardBody, Flex, FormControl, FormLabel, Input, Text } from "@chakra-ui/react";
+import { Alert, Button, Card, CardBody, Flex, FormControl, FormLabel, Input, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Loader from "../../component/loader/Loader";
 import axios from "axios";
 import { setToken } from "../../utils/token";
 
 export default function Signin() {
   // eslint-disable-next-line no-unused-vars
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
+  const [err, setErr] = useState("");
 
   const submitSignin = (e) => {
     setLoading(true);
@@ -22,6 +22,7 @@ export default function Signin() {
         navigate("/");
       })
       .catch((err) => {
+        setErr(err?.response?.data?.msg);
         console.log(err);
       })
       .finally(() => {
@@ -30,7 +31,6 @@ export default function Signin() {
   };
   return (
     <>
-      {loading && <Loader />}
       <Flex height={"90vh"} justify={"center"} align={"center"}>
         <Card width={{ base: "320px", md: "400px" }} variant="outline">
           <CardBody>
@@ -47,6 +47,7 @@ export default function Signin() {
                   onChange={(e) => {
                     setName(e.target.value);
                   }}
+                  disabled={loading}
                 />
               </FormControl>
               <FormControl mb="4" isRequired>
@@ -58,9 +59,17 @@ export default function Signin() {
                   onChange={(e) => {
                     setPassword(e.target.value);
                   }}
+                  disabled={loading}
                 />
               </FormControl>
-              <Button type="submit" colorScheme="teal" w={"100%"}>
+              {err && (
+                <>
+                  <Alert size="sm" status="error" mb={2} borderRadius={"md"}>
+                    {err}
+                  </Alert>
+                </>
+              )}
+              <Button type="submit" colorScheme="teal" w={"100%"} isLoading={loading} loadingText="Signing in...">
                 Signin
               </Button>
             </form>

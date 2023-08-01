@@ -1,8 +1,15 @@
 import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import { Container } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getToken, removeToken } from "../../utils/token";
 export default function Header() {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    removeToken();
+    navigate("/");
+  };
+
   return (
     <Box bg="white" w="100%">
       <Container maxW="container.xl">
@@ -12,7 +19,7 @@ export default function Header() {
           </Link>
           <Flex gap={2}>
             {getToken() ? (
-              <Button colorScheme="red" size="sm" onClick={() => removeToken()}>
+              <Button colorScheme="red" size="sm" onClick={handleLogout}>
                 Signout
               </Button>
             ) : (

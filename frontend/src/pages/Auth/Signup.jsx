@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 export default function Signup() {
   // eslint-disable-next-line no-unused-vars
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
 

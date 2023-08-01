@@ -1,8 +1,11 @@
 import { Button, Flex, Text } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
+import { getToken } from "../../utils/token";
 
-export default function Index() {
-  return (
+export default function Landing() {
+  return getToken() ? (
+    <Navigate to="/home" />
+  ) : (
     <div>
       <Flex direction={"column"} h={"90vh"} justify={"center"} align={"center"}>
         <Text fontWeight={700} textAlign={"center"} fontSize={{ base: "4xl", md: "7xl" }}>
