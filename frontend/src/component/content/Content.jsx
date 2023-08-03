@@ -1,5 +1,5 @@
-/* eslint-disable react/prop-types */
 import { Box } from "@chakra-ui/react";
+import PropTypes from "prop-types";
 export default function Content({ children }) {
   return (
     <>
@@ -9,3 +9,7 @@ export default function Content({ children }) {
     </>
   );
 }
+
+Content.propTypes = {
+  children: PropTypes.node.isRequired,
+};

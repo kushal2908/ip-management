@@ -7,7 +7,9 @@ const { logger } = require("../utils/logger");
 //@ACESS       Private
 ///////////////////////////////////////////////////////////////////////////
 const getAllIpController = async (req, res) => {
-  const ipLists = await IpLists.findAll();
+  const ipLists = await IpLists.findAll({
+    order: [["id", "DESC"]],
+  });
 
   if (ipLists.length > 0) {
     res.status(200).json(ipLists);
