@@ -1,3 +1,4 @@
+const AuditLogs = require("../model/auditLogs.model");
 const IpLists = require("../model/ipList.model");
 const { logger } = require("../utils/logger");
 const morgan = require("morgan");
@@ -46,7 +47,15 @@ const entryIpController = async (req, res) => {
       res.status(201).json({
         msg: "IP registered",
       });
-      logger.info(`IP address ${ipAddress} registered by ${req?.user?.dataValues?.name}`);
+
+      // Audit Log
+      const logMsg = `IP REGISTERED: IP address ${ipAddress} registered by ${req?.user?.dataValues?.name}`;
+      logger.info(logMsg);
+
+      // INSERT into DB
+      await AuditLogs.create({
+        log: logMsg,
+      });
     } else {
       res.status(400).json({
         msg: "Error! entry IP Address",
@@ -67,12 +76,10 @@ const getSignleIpController = async (req, res) => {
   const ipInfo = await IpLists.findByPk(id);
   if (ipInfo) {
     res.status(200).json(ipInfo);
-    logger.info(`IP address ${ipInfo?.ipAddress} retrived`);
   } else {
     res.status(400).json({
       msg: "Can not find IP info",
     });
-    logger.error("Can not find IP info");
   }
 };
 
@@ -96,11 +103,17 @@ const updateSigleIpController = async (req, res) => {
       res.status(200).json({
         msg: "IP address has been updated",
       });
-      logger.info(
-        `IP address ${updateSelectedIpEntry?.ipAddress} has been updated by ${req?.user?.dataValues?.name} from ${
-          req.connection.remoteAddress.split(":")[3]
-        }`
-      );
+
+      // Audit Log
+      const logMsg = `IP UPDATED: IP address ${updateSelectedIpEntry?.ipAddress} has been updated by ${
+        req?.user?.dataValues?.name
+      } from ${req.connection.remoteAddress.split(":")[3]}`;
+      logger.info(logMsg);
+
+      // INSERT into DB
+      await AuditLogs.create({
+        log: logMsg,
+      });
     } else {
       res.status(400).json({
         msg: "Can not update ip address",
@@ -131,7 +144,16 @@ const deleteIpAddressController = async (req, res) => {
     res.status(200).json({
       msg: "IP address deleted",
     });
-    logger.info(`IP address deleted by ${req?.user?.dataValues?.name} from ${req.connection.remoteAddress.split(":")[3]}`);
+
+    // Audit Log
+    const logMsg = `IP DELETED: IP address deleted by ${req?.user?.dataValues?.name} from ${
+      req.connection.remoteAddress.split(":")[3]
+    }`;
+    logger.info(logMsg);
+    // INSERT into DB
+    await AuditLogs.create({
+      log: logMsg,
+    });
   } else {
     res.status(400).json({
       msg: "Can not deleted IP address ",

@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 const { logger } = require("../utils/logger");
 const { hash, compare } = require("../utils/password");
 const Users = require("../model/users.model");
+const AuditLogs = require("../model/auditLogs.model");
 
 ///////////////////////////////////////////////////////////////////////////
 //@DESC        Register a user
@@ -32,7 +33,13 @@ const signupController = async (req, res) => {
       res.status(201).json({
         msg: "User Created Successfully",
       });
-      logger.info(`USER: ${name} has been created from ${req.connection.remoteAddress.split(":")[3]}`);
+      // Audit log
+      const logMsg = `USER CREATED: ${name} has been created from ${req.connection.remoteAddress.split(":")[3]}`;
+      logger.info(logMsg);
+      // INSERT into db
+      await AuditLogs.create({
+        log: logMsg,
+      });
     } else {
       res.status(400).json({
         msg: "Invalid user data",
@@ -60,14 +67,21 @@ const signinController = async (req, res) => {
       msg: "User signedin successfuly",
       token: createJWT(userDataForJWT),
     });
-    logger.info(`USER: ${user?.name} signedin successfuly from ${req.connection.remoteAddress.split(":")[3]} `);
+
+    // Audit log
+    const logMsg = `USER SIGNIN: ${user?.name} signed in successfuly from ${req.connection.remoteAddress.split(":")[3]} `;
+    logger.info(logMsg);
+    // INSERT into DB
+    await AuditLogs.create({
+      log: logMsg,
+    });
   } else {
     res.status(400).json({
       success: false,
       statuscode: 400,
       msg: "Invalid credential",
     });
-    logger.error(`USER: ${name} failed to singin from ${req.connection.remoteAddress.split(":")[3]}`);
+    logger.error(`USER: ${name} failed to singed in from ${req.connection.remoteAddress.split(":")[3]}`);
   }
 };
 

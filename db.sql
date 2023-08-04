@@ -16,6 +16,20 @@ CREATE DATABASE /*!32312 IF NOT EXISTS*/`ip_management` /*!40100 DEFAULT CHARACT
 
 USE `ip_management`;
 
+/*Table structure for table `auditlogs` */
+
+DROP TABLE IF EXISTS `auditlogs`;
+
+CREATE TABLE `auditlogs` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `log` text NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+/*Data for the table `auditlogs` */
+
 /*Table structure for table `iplists` */
 
 DROP TABLE IF EXISTS `iplists`;
@@ -29,7 +43,7 @@ CREATE TABLE `iplists` (
   `updatedAt` datetime(6) DEFAULT NULL,
   `updatedBy` bigint DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*Data for the table `iplists` */
 
@@ -42,12 +56,9 @@ CREATE TABLE `users` (
   `name` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*Data for the table `users` */
-
-insert  into `users`(`id`,`name`,`password`) values 
-(1,'test','$2a$10$0eCsyu6SnoY/y0IFTKt/EOF5i/FI/lBAfuVOUFC4snA4vU4DaXLPS');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

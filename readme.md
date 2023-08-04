@@ -14,4 +14,4 @@ To run the backend, go to backend folder and create an **.env** file. The exampl
 
 #### Frontend
 
-Go to frontend folder and open up terminal and run `npm install` then `npm run dev` to run the project and explore it on dev environment
+Go to frontend folder and open up terminal and run `npm install` then `npm run dev` to run the project and explore it on dev environment. SIGNUP and enjoy.
