@@ -4,8 +4,8 @@ const { logger } = require("../utils/logger");
 
 dotenv.config();
 
-const sequelize = new Sequelize("ip_management", "root", "root", {
-  host: "127.0.0.1",
+const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
+  host: process.env.DB_HOST,
   dialect: "mysql",
 });
 
