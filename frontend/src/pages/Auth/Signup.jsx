@@ -1,16 +1,36 @@
+import { Button, Card, CardBody, Flex, FormControl, FormErrorMessage, FormLabel, Input, Text, useToast } from "@chakra-ui/react";
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Loader from "../../component/loader/Loader";
-import { Button, Card, CardBody, Flex, FormControl, FormLabel, Input, Text } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { SUCCESS_TOAST } from "../../component/toast/Toastmsg";
+import { axiosPublic } from "../../utils/auth";
 
 export default function Signup() {
   // eslint-disable-next-line no-unused-vars
+  const toast = useToast();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
+  const [errMsg, setErrMsg] = useState("");
 
   const submitSignup = (e) => {
     e.preventDefault();
+    setLoading(true);
+    axiosPublic
+      .post("/auth/signup", { name, password })
+      .then((res) => {
+        console.log(res);
+        toast(SUCCESS_TOAST(res?.data?.msg + " Please signin"));
+        navigate("/signin");
+      })
+      .catch((err) => {
+        console.log(err);
+        setErrMsg(err?.response?.data?.msg);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
   return (
     <>
@@ -22,7 +42,7 @@ export default function Signup() {
               Signup
             </Text>
             <form onSubmit={submitSignup}>
-              <FormControl mb="4" isRequired>
+              <FormControl mb="4" isRequired isInvalid={errMsg}>
                 <FormLabel>Name</FormLabel>
                 <Input
                   type="text"
@@ -31,7 +51,9 @@ export default function Signup() {
                   onChange={(e) => {
                     setName(e.target.value);
                   }}
+                  disabled={loading}
                 />
+                <FormErrorMessage>{errMsg}</FormErrorMessage>
               </FormControl>
               <FormControl mb="4" isRequired>
                 <FormLabel>Password</FormLabel>
@@ -42,10 +64,11 @@ export default function Signup() {
                   onChange={(e) => {
                     setPassword(e.target.value);
                   }}
+                  disabled={loading}
                 />
               </FormControl>
-              <Button type="submit" colorScheme="teal" w={"100%"}>
-                Signin
+              <Button type="submit" colorScheme="teal" w={"100%"} isLoading={loading} loadingText="Signing up...">
+                Signup
               </Button>
             </form>
 

@@ -15,7 +15,7 @@ export default function Header() {
       <Container maxW="container.xl">
         <Flex justify={"space-between"} align={"center"} minH="60px">
           <Link to="/">
-            <Text fontWeight={500}>IP Management</Text>
+            <Text fontWeight={500}>IPForte</Text>
           </Link>
           <Flex gap={2}>
             {getToken() ? (

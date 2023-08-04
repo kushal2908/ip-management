@@ -1,7 +1,7 @@
 import { Alert, Button, Card, CardBody, Flex, FormControl, FormLabel, Input, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { axiosPublic } from "../../utils/auth";
 import { setToken } from "../../utils/token";
 
 export default function Signin() {
@@ -15,7 +15,7 @@ export default function Signin() {
   const submitSignin = (e) => {
     setLoading(true);
     e.preventDefault();
-    axios
+    axiosPublic
       .post("auth/signin", { name, password })
       .then((res) => {
         setToken(res?.data?.token);

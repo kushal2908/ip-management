@@ -2,7 +2,7 @@ import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOve
 import PropTypes from "prop-types";
 import AddressForm from "./AddressForm";
 
-export default function AddressFormModal({ isOpen, onClose, type }) {
+export default function AddressFormModal({ isOpen, onClose, type, selectedId }) {
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose}>
@@ -11,7 +11,7 @@ export default function AddressFormModal({ isOpen, onClose, type }) {
           <ModalHeader>{type} IP Address</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <AddressForm type={type} onClose={onClose} />
+            <AddressForm type={type} onClose={onClose} selectedId={selectedId} />
           </ModalBody>
         </ModalContent>
       </Modal>
@@ -23,4 +23,5 @@ AddressFormModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired,
+  selectedId: PropTypes.string,
 };

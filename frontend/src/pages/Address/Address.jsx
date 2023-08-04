@@ -1,19 +1,25 @@
-import { Box, Button, Flex, Heading } from "@chakra-ui/react";
-import axios from "axios";
+import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import { Box, Button, Flex, Heading, useToast } from "@chakra-ui/react";
+import { createColumnHelper } from "@tanstack/react-table";
 import { useEffect, useState } from "react";
+import ConfirmDialog from "../../component/confirmDialog/ConfirmDialog";
 import Content from "../../component/content/Content";
 import DataTable from "../../component/dataTable/DataTable";
-import AddressFormModal from "./AddressFormModal";
 import Loader from "../../component/loader/Loader";
-import { createColumnHelper } from "@tanstack/react-table";
-import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import { ERROR_TOAST, SUCCESS_TOAST } from "../../component/toast/Toastmsg";
+import { axiosPrivate } from "../../utils/auth";
+import AddressFormModal from "./AddressFormModal";
 
 export default function Address() {
-  const [formModal, setFormModal] = useState(false);
-  const [formType, setFormType] = useState("");
+  const toast = useToast();
   const [loading, setLoading] = useState(false);
   const [ipData, setIpData] = useState([]);
+  const [formType, setFormType] = useState("");
+  const [selectedRowId, setSelectedRowId] = useState("");
+  const [formModal, setFormModal] = useState(false);
+  const [confirmModal, setConfirmModal] = useState(false);
 
+  // Columns
   const columnHelper = createColumnHelper();
   const columns = [
     columnHelper.accessor("label", {
@@ -31,12 +37,21 @@ export default function Address() {
             <Button
               size="xs"
               onClick={() => {
-                console.log(info?.row?.original?.id);
+                setFormType("Edit");
+                setSelectedRowId(info?.row?.original?.id);
+                setFormModal(true);
               }}
             >
               <EditIcon />
             </Button>
-            <Button size="xs" colorScheme={"red"}>
+            <Button
+              size="xs"
+              colorScheme={"red"}
+              onClick={() => {
+                setSelectedRowId(info?.row?.original?.id);
+                setConfirmModal(true);
+              }}
+            >
               <DeleteIcon />
             </Button>
           </Flex>
@@ -46,9 +61,10 @@ export default function Address() {
     }),
   ];
 
+  //Fetch all IP address
   const fetchIpData = () => {
     setLoading(true);
-    axios
+    axiosPrivate
       .get("/ip")
       .then((res) => {
         setIpData(res?.data);
@@ -64,6 +80,23 @@ export default function Address() {
   useEffect(() => {
     fetchIpData();
   }, []);
+
+  // Delete function
+  // Delete a IP ADDRESS
+  const deleteIpAddress = () => {
+    axiosPrivate
+      .delete(`/ip/${selectedRowId}`)
+      .then((res) => {
+        toast(SUCCESS_TOAST(res?.data?.msg));
+        setConfirmModal(false);
+        fetchIpData();
+      })
+      .catch((err) => {
+        console.log(err);
+        toast(ERROR_TOAST(err?.response?.data?.msg));
+      })
+      .finally(() => {});
+  };
 
   return (
     <>
@@ -96,8 +129,22 @@ export default function Address() {
         onClose={() => {
           setFormModal(false);
           fetchIpData();
+          setSelectedRowId("");
+          setFormType("Add");
         }}
         type={formType}
+        selectedId={selectedRowId}
+      />
+
+      {/* Confirm when delete */}
+      <ConfirmDialog
+        isOpen={confirmModal}
+        onClose={() => {
+          setConfirmModal(false);
+        }}
+        heading="Delete IP address"
+        body="Are you sure you want to delete the IP Address?"
+        onConfirm={deleteIpAddress}
       />
     </>
   );

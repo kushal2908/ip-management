@@ -10,7 +10,6 @@ const getAllIpController = async (req, res) => {
   const ipLists = await IpLists.findAll({
     order: [["id", "DESC"]],
   });
-
   if (ipLists.length > 0) {
     res.status(200).json(ipLists);
   } else {
