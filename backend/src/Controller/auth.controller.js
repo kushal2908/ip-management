@@ -18,7 +18,6 @@ const signupController = async (req, res) => {
     res.status(400).json({
       msg: "Please add all fields",
     });
-    throw new Error("please add all fields");
   }
 
   //   Checking if user already exist or not
@@ -35,8 +34,9 @@ const signupController = async (req, res) => {
       });
       logger.info(`USER: ${name} has been created from ${req.connection.remoteAddress.split(":")[3]}`);
     } else {
-      res.status(400);
-      throw new Error("Invalid user data");
+      res.status(400).json({
+        msg: "Invalid user data",
+      });
     }
   }
 };

@@ -1,5 +1,6 @@
 const IpLists = require("../model/ipList.model");
 const { logger } = require("../utils/logger");
+const morgan = require("morgan");
 
 ///////////////////////////////////////////////////////////////////////////
 //@DESC        List of all ip entries
@@ -33,6 +34,7 @@ const entryIpController = async (req, res) => {
     res.status(400).json({
       msg: "IP already registered",
     });
+    logger.error(`IP address ${ipAddress} already registered`);
   } else {
     const ipEntry = await IpLists.create({
       ipAddress: ipAddress,
@@ -44,10 +46,12 @@ const entryIpController = async (req, res) => {
       res.status(201).json({
         msg: "IP registered",
       });
+      logger.info(`IP address ${ipAddress} registered by ${req?.user?.dataValues?.name}`);
     } else {
       res.status(400).json({
         msg: "Error! entry IP Address",
       });
+      logger.error(`Error! Entry IP address ${ipAddress}`);
     }
   }
 };
@@ -63,10 +67,12 @@ const getSignleIpController = async (req, res) => {
   const ipInfo = await IpLists.findByPk(id);
   if (ipInfo) {
     res.status(200).json(ipInfo);
+    logger.info(`IP address ${ipInfo?.ipAddress} retrived`);
   } else {
     res.status(400).json({
       msg: "Can not find IP info",
     });
+    logger.error("Can not find IP info");
   }
 };
 
@@ -90,15 +96,26 @@ const updateSigleIpController = async (req, res) => {
       res.status(200).json({
         msg: "IP address has been updated",
       });
+      logger.info(
+        `IP address ${updateSelectedIpEntry?.ipAddress} has been updated by ${req?.user?.dataValues?.name} from ${
+          req.connection.remoteAddress.split(":")[3]
+        }`
+      );
     } else {
       res.status(400).json({
         msg: "Can not update ip address",
       });
+      logger.error(
+        `Can not update ip address ${updateSelectedIpEntry?.ipAddress} by ${req?.user?.dataValues?.name} from ${
+          req.connection.remoteAddress.split(":")[3]
+        } `
+      );
     }
   } else {
     res.status(204).json({
       msg: "No data",
     });
+    logger.info("No data");
   }
 };
 
@@ -114,10 +131,14 @@ const deleteIpAddressController = async (req, res) => {
     res.status(200).json({
       msg: "IP address deleted",
     });
+    logger.info(`IP address deleted by ${req?.user?.dataValues?.name} from ${req.connection.remoteAddress.split(":")[3]}`);
   } else {
     res.status(400).json({
       msg: "Can not deleted IP address ",
     });
+    logger.info(
+      `Can not deleted IP address by ${req?.user?.dataValues?.name} from ${req.connection.remoteAddress.split(":")[3]}`
+    );
   }
 };
 
