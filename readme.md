@@ -4,6 +4,8 @@ IPForte enables you to track, store, and label your network's ip addresses.
 
 ### How to run
 
+Download the project
+
 #### Database
 
 At first, create a Database name `ip_management` and execute the script name `db.sql` at the root of the project.
